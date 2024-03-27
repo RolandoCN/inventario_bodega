@@ -30,6 +30,7 @@ use App\Http\Controllers\Bodega\SolicitudPaqueteCentroObstController;
 use App\Http\Controllers\Api\TurneroController;
 use App\Http\Controllers\Nacional\InterOperabilidadController;
 use App\Http\Controllers\Bodega\PedidoBodegaController;
+use App\Http\Controllers\Personal\ItemController;
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
@@ -59,6 +60,16 @@ Route::post('/guardar-persona', [PersonaController::class, 'guardar']);
 Route::get('/editar-persona/{id}', [PersonaController::class, 'editar']);
 Route::put('/actualizar-persona/{id}', [PersonaController::class, 'actualizar']);
 Route::get('/eliminar-persona/{id}', [PersonaController::class, 'eliminar']);
+
+//ITEM
+Route::get('/producto', [ItemController::class, 'index']);
+Route::get('/listado-producto', [ItemController::class, 'listar']);
+Route::post('/guardar-producto', [ItemController::class, 'guardar']);
+Route::get('/editar-producto/{id}', [ItemController::class, 'editar']);
+Route::put('/actualizar-producto/{id}', [ItemController::class, 'actualizar']);
+Route::get('/eliminar-producto/{id}', [ItemController::class, 'eliminar']);
+
+Route::get('/ingreso-bodega', [BodegaPrincipalController::class, 'index']);
 
 
 
@@ -141,7 +152,7 @@ Route::middleware(['auth'])->group(function() { //middleware autenticacion
 
 
     //INGRESO BODEGA
-    Route::get('/ingreso-bodega', [BodegaPrincipalController::class, 'index'])->middleware('validarRuta');
+    // Route::get('/ingreso-bodega', [BodegaPrincipalController::class, 'index'])->middleware('validarRuta');
     Route::get('/listado-medicamentos-filtra/{text}', [BodegaPrincipalController::class, 'buscarMedicamentos']);
     Route::get('/listado-insumos-filtra/{text}', [BodegaPrincipalController::class, 'buscarInsumos']);
     Route::get('/listado-lab-mat-filtra/{text}', [BodegaPrincipalController::class, 'buscarLaboratorioMat']);

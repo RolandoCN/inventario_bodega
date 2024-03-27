@@ -48,56 +48,21 @@ class BodegaPrincipalController extends Controller
     }
     public function index(){
 
-        // $comprobante=Comprobante::with('detalle')->where('idcomprobante',8321)->first();
-        // // dd($comprobante);
-        // foreach($comprobante->detalle as $item){
-        //     //cambiamos estado detalle           
-        //     // $detalle->estado="Elimina";
-        //     // $detalle->save();
-
-        //     $existencia=Existencia::where('iddetalle_comprobante', $item->iddetalle_comprobante)->first();
-        //     $existencia->delete();
-        //     // $existencia->estado="Elimina";
-        //     // $existencia->save();
-
-        //     $prodBod=ProductoBodega::where('idbodprod', $item->idbodprod)->first();
-        //     // $prodBod->estado="Elimina";
-        //     // $prodBod->save();
-        //     $prodBod->delete();
-
-        //     $lote=LoteProducto::where('idbodp', $item->idbodprod)->first();
-        //     // $lote->estado="Elimina";
-        //     // $lote->save();
-        //     $lote->delete();
-
-        //     $detalle=DetalleComprobante::where('iddetalle_comprobante', $item->iddetalle_comprobante)->first();
-        //     $detalle->delete();
-
-        // }
-        
-        // $comprobante->estado="Eliminado";
-        // $comprobante->save();
-
        
-        $proveedor= DB::connection('pgsql')->table('bodega.proveedor')
-        ->where('estado1',1)
-        ->get();
-        
-        $tipo_ingreso= DB::connection('pgsql')->table('bodega.tipo_ingreso')
-        ->where('estado',1)->get();
-
-        $bodega= DB::connection('pgsql')->table('bodega.bodega')
-        ->where('idtipobod',1)
-        ->where('estado',1)
+        $persona= DB::table('persona')
+        ->where('estado','A')
         ->get();
 
-        $usuario= DB::connection('pgsql')->table('inventario.persona')
+        $bodega= DB::table('bodega')
+        ->where('estado','A')
+        ->get();
+
+        $usuario= DB::table('inventario.persona')
         ->where('estado',1)
         ->get();
 
         return view('gestion_bodega.ingreso_bodega_general',[
-            "proveedor"=>$proveedor,
-            "tipo_ingreso"=>$tipo_ingreso,
+            "persona"=>$persona,
             "bodega"=>$bodega,
             "usuario"=>$usuario
         ]);

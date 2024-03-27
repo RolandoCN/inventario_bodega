@@ -31,61 +31,95 @@
                 <form class="form-horizontal" id="form_ingreso_bodega" autocomplete="off" method="post"
                 action="">
                 {{ csrf_field() }}
-
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-3 control-label">Nº Factura/Guia</label>
-                        <div class="col-sm-6">
+                    <div class="form-group col-md-12">
+                        
+                        <div class="col-md-3">
+                            <label>Nº Factura/Guia:</label>
                             <input type="text"  class="form-control" id="guia"  name="guia" placeholder="Factura/Guia">
-                        </div>                           
-                    </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Fecha:</label>
+                            <input type="date"  class="form-control" id="fecha"  name="fecha" placeholder="Factura/Guia">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-3 control-label">Proveedor</label>
-                        <div class="col-sm-5">
-                            <select data-placeholder="Seleccione Un Proveedor" style="width: 100%;" class="form-control select2" name="cmb_proveedor" id="cmb_proveedor">
+                        <div class="col-md-3">
+                            <label>Tipo Ingreso:</label>
+                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="tipo_ingreso_cmb" id="tipo_ingreso_cmb"  >
+                                               
+                                <option value=""></option>
+                                <option value="Compra" >Compra </option>
+                                <option value="Ajuste Inventario" >Ajuste Inventario </option>
+                              
+                            </select>
+                        </div>   
+                        
+                        <div class="col-md-3">
+                            <label>Bodega:</label>
+                            <select data-placeholder="Seleccione Una Bodega" style="width: 100%;" class="form-control select2" name="cmb_bodega" id="cmb_bodega" >
                             
-                                {{-- @foreach ($proveedor as $dato)
+                                @foreach ($bodega as $dato)
                                     <option value=""></option>
-                                    <option value="{{ $dato->idprov}}" >{{ $dato->ruc }} -- {{ $dato->empresa }} </option>
-                                @endforeach --}}
+                                    <option value="{{ $dato->idbodega}}" >{{ $dato->descripcion }} </option>
+                                @endforeach
 
                             </select>
-                        </div>  
-                        <div class="col-sm-1">
-                            <button type="button" class="btn btn-sm btn-info btn-block" onclick="nuevoProveedor()">Agregar</button>    
-                        </div>                         
+                        </div>   
+                       
                     </div>
-                    <input type="hidden" name="fecha_actual" id="fecha_actual" value="{{date('Y-m-d')}}">
+
+                    <div class="form-group col-md-12">
+                        
+                      
+                        <div class="col-md-5">
+                            <label>Proveedor:</label>
+                            <select data-placeholder="Seleccione Un Proveedor" style="width: 100%;" class="form-control select2" name="cmb_persona" id="cmb_persona">
+                                
+                                @foreach ($persona as $dato)
+                                    <option value=""></option>
+                                    <option value="{{ $dato->idpersona}}" >{{ $dato->numero_doc }} -- {{ $dato->nombres }} {{ $dato->apellidos }} </option>
+                                @endforeach
+    
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-sm btn-info btn-block" style="margin-top: 28px" onclick="nuevoProveedor()">Agregar</button>    
+                        </div>   
+
+                        <div class="col-md-5">
+                            <label>Item:</label>
+                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="medi" id="medi"   >
+                            
+                                <option value=""></option>
+                                
+                            </select>
+                        </div>     
+                        
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-sm btn-info btn-block" style="margin-top: 28px" onclick="nuevoProveedor()">Agregar</button>    
+                        </div>   
+                       
+                    </div>
+                    
+
+                  
+
+                
+                    {{-- <input type="hidden" name="fecha_actual" id="fecha_actual" value="{{date('Y-m-d')}}">
 
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label">Tipo Ingreso</label>
                         <div class="col-sm-6">
-                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="tipo_ingreso_cmb" id="tipo_ingreso_cmb"  onchange="cambiaTipoIngeso()"  >
-                            
-                                @foreach ($tipo_ingreso as $dato)
-                                    <option value=""></option>
-                                    <option value="{{ $dato->idtipo_ingreso}}" >{{ $dato->nombre }} </option>
-                                @endforeach
-
+                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="tipo_ingreso_cmb" id="tipo_ingreso_cmb"  >
+                                               
+                                <option value=""></option>
+                                <option value="Compra" >Compra </option>
+                                <option value="Ajuste Inventario" >Ajuste Inventario </option>
+                              
                             </select>
                         </div>                           
                     </div>
 
-                    <div class="form-group" id="seccio_dev" style="display: none">
-                        <label for="inputPassword3" class="col-sm-3 control-label">Funcionario</label>
-                        <div class="col-sm-6">
-                            <select data-placeholder="Seleccione Una Opcion" style="width: 100%;" class="form-control select2" name="cmb_user_dev" id="cmb_user_dev"  >
-                            
-                                @foreach ($usuario as $dato)
-                                    <option value=""></option>
-                                    <option value="{{ $dato->idper}}" >{{ $dato->ci }} -- {{ $dato->ape1 }} {{ $dato->ape2 }} {{ $dato->nom1 }} {{ $dato->nom2 }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>                           
-                    </div>
-
-
+                    
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label">Bodega</label>
                         <div class="col-sm-6">
@@ -103,17 +137,14 @@
                                    
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label">Item</label>
-                        <div class="col-sm-5">
-                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="medi" id="medi"  disabled >
+                        <div class="col-sm-6">
+                            <select data-placeholder="Seleccione Un Tipo" style="width: 100%;" class="form-control select2" name="medi" id="medi"   >
                             
                                 <option value=""></option>
                                 
                             </select>
                         </div> 
-                        
-                        <div class="col-sm-1" >
-                            <button type="button" class="btn btn-sm btn-primary btn-block" style="margin-top: 5px" onclick="abrirModalMedicina()">Buscar</button>
-                        </div>
+                       
                     </div>
 
                       
@@ -122,7 +153,7 @@
                         <div class="col-sm-6">
                            <input type="text" name="observa" id="observa" class="form-control">
                         </div>                           
-                    </div>
+                    </div> --}}
 
 
                     <div id="tabla_detalle" class="row" >
@@ -137,18 +168,13 @@
                                                 <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 10px;">Item</th>
 
                                                 <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 10px;">Cantidad</th>
-{{-- 
-                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Descuento</th> --}}
+
 
                                                 <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Precio</th>
 
-                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Fecha Elabo</th>
+                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Iva</th>
 
-                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Fecha Caduc</th>
-
-                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Lote</th>
-
-                                                <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Reg. San</th>
+                                                
 
                                                 <th style="text-align: center" class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1"  aria-label="Office: activate to sort column ascending" style="width: 10px;"> Total</th>
 

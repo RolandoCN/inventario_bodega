@@ -5,7 +5,7 @@
     
     <section class="content-header">
         <h1>
-            Gestión Persona
+            Gestión Persona-Empresa
         </h1>
 
     </section>
@@ -36,7 +36,7 @@
                     <table id="tabla_persona" width="100%"class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Cédula</th>
+                                <th>Numero Ident</th>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
                                 <th>Teléfono</th>
@@ -80,7 +80,7 @@
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-3 control-label">Tipo Identificacion</label>
                             <div class="col-sm-8">
-                                <select data-placeholder="Seleccione Una Tipo" style="width: 100%;" class="form-control select2" name="tipo_id" id="tipo_id" >                                
+                                <select data-placeholder="Seleccione Una Tipo" style="width: 100%;" class="form-control select2" name="tipo_id" id="tipo_id" onchange="tipo_identificacion_selecc()">                                
                                    
                                     <option value="" selected></option>
                                     <option value="1" >Cedula</option>
@@ -105,7 +105,7 @@
                         <div class="form-group seccion_ruc" style="display: none">
                             <label for="inputPassword3" class="col-sm-3 control-label">Ruc</label>
                             <div class="col-sm-8">
-                                <input type="number" minlength="1" maxlength="13" onKeyPress="if(this.value.length==13) return false;"  class="form-control" id="cedula_persona" name="ruc_persona" placeholder="Ruc">
+                                <input type="number" minlength="1" maxlength="13" onKeyPress="if(this.value.length==13) return false;"  class="form-control" id="ruc_persona" name="ruc_persona" placeholder="Ruc">
                                 
                             </div>
                             
@@ -159,19 +159,6 @@
                                 
                             </div>
                            
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputPassword3" class="col-sm-3 control-label">Es proveedor</label>
-                            <div class="col-sm-8">
-                                <select data-placeholder="Seleccione Una Opcion" style="width: 100%;" class="form-control select2" name="proveedor" id="proveedor" >                                
-                                   
-                                    <option value="" selected></option>
-                                    <option value="0" >No</option>
-                                    <option value="1" >Si</option>
-                                                                     
-                                </select>                               
-                            </div>                           
                         </div>
 
 

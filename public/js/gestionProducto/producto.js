@@ -1,69 +1,53 @@
-function tipo_identificacion_selecc(){
-    limpiaSeleccionTipo()
-    var tipo=$('#tipo_id').val()
-    if(tipo==""){return}
-    else if(tipo==1){
-        $('.seccion_cedula').show()
-        $('.seccion_ruc').hide()
-    }else{
-        $('.seccion_cedula').hide()
-        $('.seccion_ruc').show()
-    }
 
-}
-function limpiaSeleccionTipo(){
-    $('#cedula_persona').val('')
-    $('#ruc_persona').val('')
-}
-
-$("#form_registro_persona").submit(function(e){
+$("#form_registro_producto").submit(function(e){
     e.preventDefault();
     
     //validamos los campos obligatorios
-    let cedula=$('#cedula_persona').val()
-    let ruc=$('#ruc_persona').val()
-    var tipo_iden=$('#tipo_id').val()
-    let nombres=$('#nombres').val()
-    let apellidos=$('#apellidos').val()
-    let telefono=$('#telefono').val()
+    let codigo=$('#codigo').val()
+    let descripcion=$('#descripcion').val()
+    var cmb_marca=$('#cmb_marca').val()
+    let cmb_modelo=$('#cmb_modelo').val()
+    let precio=$('#precio').val()
+    let cmb_iva=$('#cmb_iva').val()
 
-    if(tipo_iden==""){
-        alertNotificar("Debe seleccionar un tipo de identificacion","error")
+    if(codigo==""){
+        alertNotificar("Debe ingresar el codigo del producto","error")
+        $('#codigo').focus()
         return
     }
-    
-    if(tipo_iden==1){
-        if(cedula=="" || cedula==null){
-            alertNotificar("Debe ingresar la cédula","error")
-            $('#cedula_persona').focus()
-            return
-        } 
-    }
-    if(tipo_iden==2){
-        if(ruc=="" || ruc==null){
-            alertNotificar("Debe ingresar el ruc","error")
-            $('#cedula_persona').focus()
-            return
-        } 
-    }
-        
-    if(nombres=="" || nombres==null){
-        alertNotificar("Ingrese los nombres","error")
-        $('#nombres').focus()
+            
+    if(descripcion=="" || descripcion==null){
+        alertNotificar("Ingrese la descripcion","error")
+        $('#descripcion').focus()
         return
     } 
 
-    if(apellidos=="" || apellidos==null){
-        alertNotificar("Ingrese los apellidos","error")
-        $('#apellidos').focus()
+    if(cmb_marca=="" || cmb_marca==null){
+        alertNotificar("Seleccione la marca","error")
         return
     } 
 
-    if(telefono=="" || telefono==null){
-        alertNotificar("Ingrese el telefono","error")
-        $('#telefono').focus()
+    if(cmb_modelo=="" || cmb_modelo==null){
+        alertNotificar("Seleccione el modelo","error")
         return
     } 
+
+    if(precio==""){
+        alertNotificar("Debe ingresar el precio","error")
+        $('#precio').focus()
+        return
+    }
+
+    if(precio<=0){
+        alertNotificar("El precio debe ser mayor a cero","error")
+        $('#precio').focus()
+        return
+    }
+
+    if(cmb_iva==""){
+        alertNotificar("Debe seleccionar si grava IVA o no","error")
+        return
+    }
     
     vistacargando("m","Espere por favor")
     $.ajaxSetup({
@@ -77,13 +61,13 @@ $("#form_registro_persona").submit(function(e){
     let url_form=""
     if(AccionForm=="R"){
         tipo="POST"
-        url_form="guardar-persona"
+        url_form="guardar-producto"
     }else{
         tipo="PUT"
-        url_form="actualizar-persona/"+idPersonaEditar
+        url_form="actualizar-producto/"+idProductoEditar
     }
     
-    var FrmData=$("#form_registro_persona").serialize();
+    var FrmData=$("#form_registro_producto").serialize();
    
     $.ajax({
             
@@ -104,8 +88,8 @@ $("#form_registro_persona").submit(function(e){
             limpiarCampos()
             alertNotificar(data.mensaje,"success");
             $('#form_ing').hide(200)
-            $('#listado_persona').show(200)
-            llenar_tabla_persona()
+            $('#listado_producto').show(200)
+            llenar_tabla_producto()
                             
         }, error:function (data) {
             console.log(data)
@@ -117,36 +101,37 @@ $("#form_registro_persona").submit(function(e){
 })
 
 function limpiarCampos(){
-    $('#cedula_persona').val('')
-    $('#nombres').val('')
-    $('#apellidos').val('')
-    $('#telefono').val('')
-    $('#email').val('')
-    $('#tipo_id').val('').change()
-    limpiaSeleccionTipo()
+
+    $('#codigo').val('')
+    $('#descripcion').val('')
+    $('#precio').val('')
+   
+    $('#cmb_marca').val('').change()
+    $('#cmb_modelo').val('').change()
+    $('#cmb_iva').val('').change()
 }
 
-function llenar_tabla_persona(){
-    var num_col = $("#tabla_persona thead tr th").length; //obtenemos el numero de columnas de la tabla
-	$("#tabla_persona tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center><span class="spinner-border" role="status" aria-hidden="true"></span><b> Obteniendo información</b></center></td></tr>`);
+function llenar_tabla_producto(){
+    var num_col = $("#tabla_producto thead tr th").length; //obtenemos el numero de columnas de la tabla
+	$("#tabla_producto tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center><span class="spinner-border" role="status" aria-hidden="true"></span><b> Obteniendo información</b></center></td></tr>`);
    
     
-    $.get("listado-persona/", function(data){
+    $.get("listado-producto/", function(data){
        
         if(data.error==true){
             alertNotificar(data.mensaje,"error");
-            $("#tabla_persona tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
+            $("#tabla_producto tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
             return;   
         }
         if(data.error==false){
             
             if(data.resultado.length <= 0){
-                $("#tabla_persona tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
+                $("#tabla_producto tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
                 alertNotificar("No se encontró datos","error");
                 return;  
             }
          
-            $('#tabla_persona').DataTable({
+            $('#tabla_producto').DataTable({
                 "destroy":true,
                 pageLength: 10,
                 autoWidth : true,
@@ -156,23 +141,34 @@ function llenar_tabla_persona(){
                     url: 'json/datatables/spanish.json',
                 },
                 columnDefs: [
-                    { "width": "15%", "targets": 0 },
-                    { "width": "30%", "targets": 1 },
-                    { "width": "30%", "targets": 2 },
-                    { "width": "15%", "targets": 3 },
+                    { "width": "10%", "targets": 0 },
+                    { "width": "25%", "targets": 1 },
+                    { "width": "25%", "targets": 2 },
+                    { "width": "10%", "targets": 3 },
                     { "width": "10%", "targets": 4 },
+                    { "width": "10%", "targets": 5 },
+                    { "width": "10%", "targets": 6 },
                    
                 ],
                 data: data.resultado,
                 columns:[
-                        {data: "numero_doc"},
-                        {data: "nombres" },
-                        {data: "apellidos"},
-                        {data: "telefono"},
-                        {data: "telefono"},
+                        {data: "codigo"},
+                        {data: "descripcion" },
+                        {data: "precio"},
+                        {data: "precio"},
+                        {data: "iva"},
+                        {data: "valor_venta"},
+                        {data: "valor_venta"},
                 ],    
                 "rowCallback": function( row, data ) {
-                    $('td', row).eq(4).html(`
+
+                    $('td', row).eq(1).html(`<li>${data.descripcion}</li>
+                        <li>${data.detalle}</li>
+                    `)
+
+                    $('td', row).eq(2).html(`${data.marca.descripcion} - ${data.modelo.descripcion}`)
+
+                    $('td', row).eq(6).html(`
                                   
                                             <button type="button" class="btn btn-primary btn-xs" onclick="editarPersona(${data.idpersona })">Editar</button>
                                                                                 
@@ -184,7 +180,7 @@ function llenar_tabla_persona(){
             });
         }
     }).fail(function(){
-        $("#tabla_persona tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
+        $("#tabla_producto tbody").html(`<tr><td colspan="${num_col}" style="padding:40px; 0px; font-size:20px;"><center>No se encontraron datos</center></td></tr>`);
         alertNotificar("Se produjo un error, por favor intentelo más tarde","error");  
     });
 
@@ -226,7 +222,7 @@ function editarPersona(idpersona){
         }
         
         visualizarForm('E')
-        globalThis.idPersonaEditar=idpersona
+        globalThis.idProductoEditar=idpersona
 
 
 
@@ -239,7 +235,7 @@ function editarPersona(idpersona){
 
 function visualizarForm(tipo){
     $('#form_ing').show(200)
-    $('#listado_persona').hide(200)
+    $('#listado_producto').hide(200)
     globalThis.AccionForm="";
     if(tipo=='N'){
         $('#titulo_form').html("Registro Persona-Empresa")
@@ -254,7 +250,7 @@ function visualizarForm(tipo){
 
 function visualizarListado(){
     $('#form_ing').hide(200)
-    $('#listado_persona').show(200)
+    $('#listado_producto').show(200)
     limpiarCampos()
 }
 
@@ -269,7 +265,7 @@ function btn_eliminar_tarea(idpersona){
             }
     
             alertNotificar(data.mensaje,"success");
-            llenar_tabla_persona()
+            llenar_tabla_producto()
            
         }).fail(function(){
             vistacargando("")
